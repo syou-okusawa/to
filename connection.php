@@ -5,9 +5,24 @@ require('config.php');
 function insertDb($data) {
   $dbh = connectPdo();
   $sql = 'INSERT INTO todos (todo) VALUES (:todo)';
-  $stmt = $dbh->prepare($sql);
-  $stmt->bindParam(':todo', $data, PDO::PARAM_STR);
-  $stmt->execute();
+  /*
+    SQL実行準備
+  */
+  $pre = $dbh->prepare($sql);
+  $pre->bindParam(':todo', $data, PDO::PARAM_STR);
+  $pre->execute();
+}
+
+function upDateDb($id ,$data){
+  $dbh = connectPdo();
+  $sql = 'UPDATE todos set todo = :todo where id = :id AND deleted_at IS NULL';
+  /*
+    SQL実行準備
+  */
+  $pre = $dbh->prepare($sql);
+  $pre->bindParam(':todo', $data, PDO::PARAM_STR);
+  $pre->bindValue(':id', (int)$id, PDO::PARAM_STR);
+  $pre->execute();
 }
 
 function selectAll() {
@@ -27,4 +42,17 @@ function connectPdo() {
     echo $e->getMessage();
     exit;
   }
+}
+
+function detailText($id){
+  $dbh = connectPdo();
+  $sql = 'SELECT todo FROM todos WHERE id = :id AND deleted_at IS NULL';
+  /*
+    SQL実行準備
+  */
+  $pre = $dbh->prepare($sql);
+  $pre->execute(array(':id' => (int)$id));
+  $data = $pre->fetch();
+  return $data['todo'];
+
 }
