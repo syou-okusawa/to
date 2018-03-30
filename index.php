@@ -1,7 +1,7 @@
 <?php
   require('functions.php');
+  unsetSession();
 ?>
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -25,14 +25,14 @@
       </tr>
       <?php foreach(find() as $todo): ?>
       <tr>
-        <td><?php echo $todo['id'] ?></td>
-        <td><?php echo $todo['todo'] ?></td>
+        <td><?php echo h($todo['id']) ?></td>
+        <td><?php echo h($todo['todo']) ?></td>
         <td>
-          <a href="edit.php?id=<?php echo $todo['id']?>">更新</a>
+          <a href="edit.php?id=<?php echo h($todo['id'])?>">更新</a>
         </td>
         <td>
           <form action="store.php" method="POST">
-            <input type="hidden" name="id" value="<?php echo $todo['id'] ?>">
+            <input type="hidden" name="id" value="<?php echo h($todo['id']) ?>">
             <input type="hidden" name="type" value="delete">
             <button type="submit">削除</button>           
           </form>
