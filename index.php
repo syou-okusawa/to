@@ -6,7 +6,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>Home</title>
+  <title>TODO</title>
 </head>
 <body>
   簡易アプリケーション2
@@ -31,8 +31,8 @@
           <a href="edit.php?id=<?php echo $todo['id']?>">更新</a>
         </td>
         <td>
-          <form action="" method="POST">
-            <input type="hidden" name="id" value="">
+          <form action="store.php" method="POST">
+            <input type="hidden" name="id" value="<?php echo $todo['id'] ?>">
             <input type="hidden" name="type" value="delete">
             <button type="submit">削除</button>           
           </form>

@@ -13,7 +13,7 @@ function insertDb($data) {
   $pre->execute();
 }
 
-function upDateDb($id ,$data){
+function upDateDb($id ,$data) {
   $dbh = connectPdo();
   $sql = 'UPDATE todos set todo = :todo where id = :id AND deleted_at IS NULL';
   /*
@@ -22,6 +22,16 @@ function upDateDb($id ,$data){
   $pre = $dbh->prepare($sql);
   $pre->bindParam(':todo', $data, PDO::PARAM_STR);
   $pre->bindValue(':id', (int)$id, PDO::PARAM_STR);
+  $pre->execute();
+}
+
+function deleteAt($id) {
+  $nowTime = date( "Y-m-d H:i:s" );/*タイムスタンプ*/
+  $dbh = connectPdo();
+  $sql = 'UPDATE todos SET deleted_at = :nowTime where id = :id';
+  $pre = $dbh->prepare($sql);
+  $pre->bindParam(':nowTime', $nowTime);
+  $pre->bindValue(':id',$id, PDO::PARAM_INT);
   $pre->execute();
 }
 
@@ -44,7 +54,7 @@ function connectPdo() {
   }
 }
 
-function detailText($id){
+function detailText($id) {
   $dbh = connectPdo();
   $sql = 'SELECT todo FROM todos WHERE id = :id AND deleted_at IS NULL';
   /*
@@ -54,5 +64,5 @@ function detailText($id){
   $pre->execute(array(':id' => (int)$id));
   $data = $pre->fetch();
   return $data['todo'];
-
 }
+

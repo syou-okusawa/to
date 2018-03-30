@@ -1,4 +1,5 @@
 <?php
-require('functions.php');
-$ref = checkReferer();
-header('location: ./index.php');
+  require('functions.php');
+  $res = checkReferer();
+
+  header('location: ./index.php');
